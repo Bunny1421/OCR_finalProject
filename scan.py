@@ -1,6 +1,3 @@
-#  +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+-+
-#  |I|m|p|r|o|v|i|n|g| |P|a|r|c|e|l| |H|a|n|d|l|i|n|g| |U|s|i|n|g| |O|p|t|i|c|a|l| |C|h|a|r|a|c|t|e|r| |R|e|c|o|g|n|i|t|i|o|n|
-#  +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+-+
 import utils
 from scipy.spatial import distance as dist
 from pylsd.lsd import lsd
@@ -9,15 +6,11 @@ import itertools
 import math
 import cv2
 import os
-from glob import glob
-from glob import iglob
 
 class DocScanner():
     def __init__(self, MIN_QUAD_AREA_RATIO=0.25, MAX_QUAD_ANGLE_RANGE=40):
         """
         Args:
-            interactive (boolean): If True, user can adjust screen contour before
-                transformation occurs in interactive pyplot window.
             MIN_QUAD_AREA_RATIO (float): A contour will be rejected if its corners
                 do not form a quadrilateral that covers at least MIN_QUAD_AREA_RATIO
                 of the original image. Defaults to 0.25.
@@ -273,13 +266,21 @@ class DocScanner():
         print("Proccessed " + basename)
 
 if __name__ == "__main__":
-    a = DocScanner()
-    event = 1 # เรียกไฟล์ทั้งหมดในไดเรกทอรี่
-    if (event == 1):
-        a.scan('./imgs/input/sample4.jpg')
-        # print(glob('imgs/input/*.jpg'))
-    # เรียกใช้ imageProcessing
-    # แปลง รูปภาพหลังจากขั้นตอนก่อนหน้า ให้เป็นข้อความ
-    else:
-        print("event == 0")
+    ds = DocScanner()
+    imgDir = './imgs/input/'
+    valid_formats = [".jpg", ".jpeg", ".jp2", ".png", ".bmp", ".tiff", ".tif"]
+    get_ext = lambda f: os.path.splitext(f)[1].lower()
 
+    event = input('Press 1 for scan a single image\nPress 2 for scan all valid images in directory\n: ')
+
+    if (event is '1'):
+        # Scan single image
+        ds.scan(f'{imgDir}sample4.jpg') #ลองประมวลผลด้วยไฟล์เดียว; # print(glob('imgs/input/*.jpg'))
+        # เรียกใช้ imageProcessing
+        # แปลง รูปภาพหลังจากขั้นตอนก่อนหน้า ให้เป็นข้อความ
+    elif(event is '2'):
+        # Scan all valid images in directory
+        imgFiles = [f for f in os.listdir(imgDir) if get_ext(f) in valid_formats]
+        for img in imgFiles:
+            ds.scan(f'{imgDir}{img}')
+    else:print('ERROR!!')
