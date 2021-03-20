@@ -1,2 +1,2 @@
-# Oct
-O C R
+# OCR_finalProject
+จะจบมั้ยน้าา
