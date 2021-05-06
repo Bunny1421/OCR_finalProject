@@ -38,7 +38,7 @@ for i in range(0, len(results["text"])):
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
         draw.text((20, 75), text, font=font_futura,fill=(0,0,0,255))
         # cv2.putText(img, text, (x, y - 10), cv2.FONT_HERSHEY_DUPLEX,1.2, (255, 0, 255), 3)
-        cv2_im_processed = cv2.cvtColor(np.array(pil_im), cv2.COLOR_RGB2BGR)
+        # cv2_im_processed = cv2.cvtColor(np.array(pil_im), cv2.COLOR_RGB2BGR)
 # show the output image
 cv2.imshow("Image", img)
 cv2.waitKey(0)
